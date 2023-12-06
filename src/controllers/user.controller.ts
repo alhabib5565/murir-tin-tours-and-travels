@@ -1,19 +1,8 @@
 import { NextFunction, Request, RequestHandler, Response } from "express"
 import { userService } from "../service/user.service";
+import { sendSuccessResponse } from "../utils/sendSuccessResponse";
 
-type TSendSuccessResponse<T> = {
-    statusCode?: number,
-    message: string,
-    data: T
-}
 
-const sendSuccessResponse = <T>(res: Response, responseData: TSendSuccessResponse<T>) => {
-    res.status(responseData?.statusCode || 200).json({
-        success: true,
-        message: responseData.message,
-        data: responseData.data
-    })
-}
 
 const cathcAsync = (asyncFN: RequestHandler) => {
     return (req: Request, res: Response, next: NextFunction) => {
@@ -23,7 +12,7 @@ const cathcAsync = (asyncFN: RequestHandler) => {
 
 const createUser = cathcAsync(async (req: Request, res: Response) => {
     const userData = req.body
-    throw new Error('throw error')
+    // throw new Error('throw error')
     const result = await userService.createUserDB(userData)
     sendSuccessResponse(res, {
         statusCode: 201,
