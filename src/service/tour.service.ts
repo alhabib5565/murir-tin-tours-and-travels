@@ -5,6 +5,8 @@ import { Tour } from "../models/tour.model"
 
 
 const createTour = async (tourData: ITour): Promise<ITour> => {
+    throw new Error('throw error')
+
     const result = await Tour.create(tourData)
 
     return result

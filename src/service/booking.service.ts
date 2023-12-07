@@ -93,6 +93,7 @@ import mongoose from 'mongoose'
 
 const createBooking = async (payload: IBooking) => {
     const session = await mongoose.startSession()
+
     try {
         session.startTransaction()
 
