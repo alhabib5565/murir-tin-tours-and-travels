@@ -1,13 +1,11 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import { ITour } from "../interface/tour.interface"
 import { Tour } from "../models/tour.model"
+import tourSchemaValidation from "../validation/tour.validation"
 
 
 const createTour = async (tourData: ITour): Promise<ITour> => {
-    throw new Error('throw error')
-
-    const result = await Tour.create(tourData)
+    const validatedData = tourSchemaValidation.parse(tourData)
+    const result = await Tour.create(validatedData)
 
     return result
 }

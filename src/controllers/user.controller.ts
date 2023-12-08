@@ -12,7 +12,6 @@ const cathcAsync = (asyncFN: RequestHandler) => {
 
 const createUser = cathcAsync(async (req: Request, res: Response) => {
     const userData = req.body
-    // throw new Error('throw error')
     const result = await userService.createUserDB(userData)
     sendSuccessResponse(res, {
         statusCode: 201,
@@ -40,7 +39,6 @@ const getSingleUser = async (req: Request, res: Response, next: NextFunction) =>
     try {
         const id = req.params.id
         const result = await userService.getSingleUser(id)
-        throw new Error('sdfdf')
         sendSuccessResponse(res, {
             statusCode: 200,
             message: 'get single user data successfully',

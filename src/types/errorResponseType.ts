@@ -1,5 +1,5 @@
 export type TIssue = {
-    path: string,
+    path: string | number
     message: string
 }
 export type TErrorResponseFormate = {

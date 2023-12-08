@@ -5,6 +5,7 @@ import Booking from '../models/booking.model'
 import { IBooking } from '../interface/booking.interface'
 import { Tour } from '../models/tour.model'
 import mongoose from 'mongoose'
+import GenericError from '../genericError/genericError'
 // import Tour from '../models/tour.model'
 // import GenericError from '../classes/errorClasses/GenericError'
 
@@ -99,9 +100,8 @@ const createBooking = async (payload: IBooking) => {
 
         const booking = await Booking.create([payload], { session })
         if (!booking) {
-            throw new Error('booking create failed')
+            throw new GenericError('booking create failed', 404)
         }
-        // throw new Error('custom error')
         const updateSeats = await Tour.findOneAndUpdate(
             { _id: booking[0].tourId },
             { $inc: { availableSeats: -booking[0].bookedSlots } },
@@ -109,7 +109,7 @@ const createBooking = async (payload: IBooking) => {
         )
 
         if (!updateSeats) {
-            throw new Error('booking create failed')
+            throw new GenericError('booking create failed', 400)
         }
 
         await session.commitTransaction()
@@ -118,7 +118,7 @@ const createBooking = async (payload: IBooking) => {
     } catch (error) {
         await session.abortTransaction()
         await session.endSession()
-        throw new Error("tour booking failed")
+        throw new GenericError("tour booking failed", 409)
     }
 }
 
@@ -153,7 +153,7 @@ const updateBookingSlot = async (id: string, payload: { bookedSlots: number }) =
         )
 
         if (!updateBookingSlot) {
-            throw new Error('booking slot update failed')
+            throw new GenericError('booking slot update failed', 400)
         }
 
         const updateAvailabeSeats = await Tour.findOneAndUpdate(
@@ -162,7 +162,7 @@ const updateBookingSlot = async (id: string, payload: { bookedSlots: number }) =
             { session, new: true }
         )
         if (!updateAvailabeSeats) {
-            throw new Error('booking slot update failed')
+            throw new GenericError('booking slot update failed', 400)
         }
 
         await session.commitTransaction()
@@ -172,7 +172,7 @@ const updateBookingSlot = async (id: string, payload: { bookedSlots: number }) =
     } catch (error) {
         await session.abortTransaction()
         await session.endSession()
-        throw new Error('booking slot update failed')
+        throw new GenericError('booking slot update failed', 400)
     }
 }
 
