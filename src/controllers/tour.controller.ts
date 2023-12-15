@@ -17,7 +17,7 @@ const createTour = catchAsyncFunction(async (req: Request, res: Response) => {
 
 const getAllTours = async (req: Request, res: Response) => {
     try {
-        const result = await tourServices.getAllTours()
+        const result = await tourServices.getAllTours(req.query)
         res.status(200).json({
             success: true,
             message: 'get all tours data successfully',

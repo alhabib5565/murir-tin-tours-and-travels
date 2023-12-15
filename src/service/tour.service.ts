@@ -1,5 +1,8 @@
 import { ITour } from "../interface/tour.interface"
 import { Tour } from "../models/tour.model"
+import { TQueryObj } from "../types/TQueryObj"
+import { filter } from "../query/filterQuery"
+import { search } from "../query/searchQuery"
 
 
 const createTour = async (tourData: ITour): Promise<ITour> => {
@@ -8,9 +11,14 @@ const createTour = async (tourData: ITour): Promise<ITour> => {
     return result
 }
 
-const getAllTours = async (): Promise<ITour[]> => {
-    const result = await Tour.find()
-    return result
+const getAllTours = async (query: TQueryObj): Promise<ITour[]> => {
+
+    const filterQuery = filter(Tour.find(), query)
+    const serachQuery = search(filterQuery, query)
+
+    const result = await serachQuery;
+    return result;
+
 }
 
 const getSingleTour = async (id: string): Promise<ITour | null> => {
