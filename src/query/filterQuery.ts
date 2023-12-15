@@ -6,6 +6,8 @@ export const filter = <T>(modelQuery: Query<T[], T>, query: TQueryObj) => {
         "searchTerm",
         "page",
         "limit",
+        "sortBy",
+        "sortOrder"
     ]
 
     const queryObj = { ...query }
