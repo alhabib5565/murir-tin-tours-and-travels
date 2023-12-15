@@ -4,6 +4,7 @@ import { TQueryObj } from "../types/TQueryObj"
 import { filter } from "../query/filterQuery"
 import { search } from "../query/searchQuery"
 import { sort } from "../query/sortQuery"
+import { paginate } from "../query/paginateQuery"
 
 
 const createTour = async (tourData: ITour): Promise<ITour> => {
@@ -17,8 +18,9 @@ const getAllTours = async (query: TQueryObj): Promise<ITour[]> => {
     const filterQuery = filter(Tour.find(), query)
     const serachQuery = search(filterQuery, query)
     const sortQuery = sort(serachQuery, query)
+    const paginateQuery = paginate(sortQuery, query)
+    const result = await paginateQuery;
 
-    const result = await sortQuery;
     return result;
 
 }
